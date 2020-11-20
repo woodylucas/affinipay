@@ -30,9 +30,23 @@ class Stock extends Component {
     const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${this.state.searchTerm}&apikey=${API_KEY}`;
     try {
       const resp = await axios.get(url);
-      this.setState({ stocks: resp.data["bestMatches"] }, () =>
-        console.log(this.state.stocks)
-      );
+      let stocks = Array.from(
+        resp.data["bestMatches"].map((stock) => [
+          {
+            symbol: stock["1. symbol"],
+            name: stock["2. name"],
+            type: stock["3. type"],
+            region: stock["4. region"],
+            marketOpen: stock["5. marketOpen"],
+          },
+        ])
+      ).flat();
+      this.setState((currState) => {
+        return {
+          ...currState,
+          stocks,
+        };
+      });
     } catch (err) {
       console.error(err);
     }
