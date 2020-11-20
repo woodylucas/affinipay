@@ -8,38 +8,44 @@ class Stock extends Component {
     super(props);
     this.state = { stocks: [], searchTerm: "" };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // Request
-  async componentDidMount() {
-    let stockSymbol = "AMZN";
+  // Search Request
+  /*
+  FETCH
+  search() {
+      fetch(
+        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${this.state.searchTerm}&apikey=${API_KEY}`
+      )
+        .then((resp) => resp.json())
+        .then((stocksData) =>
+          this.setState({ stocks: stocksData["bestMatches"] }, () =>
+            console.log(this.state.stocks)
+          )
+        );
+    }
+    */
+  async search() {
+    const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${this.state.searchTerm}&apikey=${API_KEY}`;
     try {
-      let resp = await axios.get(
-        `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${stockSymbol}&apikey=${API_KEY}`
+      const resp = await axios.get(url);
+      this.setState({ stocks: resp.data["bestMatches"] }, () =>
+        console.log(this.state.stocks)
       );
-      let stocks = Array.from(resp.data["bestMatches"]).map((stock) => [
-        {
-          symbol: stock["1. symbol"],
-          name: stock["2. name"],
-          type: stock["3. type"],
-          region: stock["4. region"],
-          marketOpen: stock["5. marketOpen"],
-        },
-      ]);
-      this.setState((currState) => {
-        return {
-          ...currState,
-          stocks,
-        };
-      });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
     }
   }
-
   // handleChange method
   handleChange(evt) {
     this.setState({ searchTerm: evt.target.value });
+  }
+  // submit handler
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.search();
+    this.setState({ searchTerm: "" });
   }
 
   render() {
@@ -50,6 +56,7 @@ class Stock extends Component {
         <SearchBar
           searchTerm={this.state.searchTerm}
           handleChange={this.handleChange}
+          handleSubmit={this.handleSubmit}
         />
       </div>
     );
