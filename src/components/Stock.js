@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import axios from "axios";
 import SearchBar from "./SearchBar";
 import StocksList from "./StocksList";
+import StockDetail from "./StockDetail";
 import debounce from "lodash.debounce";
 
 class Stock extends Component {
   constructor(props) {
     super(props);
-    this.state = { stocks: [], searchTerm: "" };
+    this.state = { stocks: [], selectedStock: null, searchTerm: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -30,21 +31,22 @@ class Stock extends Component {
     this.search();
   }, 100);
 
-  handleClick(evt) {
-    console.log("Input was clicked");
+  handleClick(stock) {
+    console.log("Input was clicked", stock);
+    this.setState({ selectedStock: stock });
   }
 
   render() {
-    console.log(this.state.stocks);
+    const { searchTerm, stocks, selectedStock } = this.state;
     return (
       <div className="ui container" style={{ marginTop: "10px" }}>
         <h1>Stock Search</h1>
         <SearchBar
-          handleSubmit={this.handleSubmit}
-          searchTerm={this.state.searchTerm}
+          searchTerm={searchTerm}
           handleChange={(evt) => this.handleChange(evt.target.value)}
         />
-        <StocksList handleClick={this.handleClick} stocks={this.state.stocks} />
+        <StockDetail stock={selectedStock} />
+        <StocksList handleClick={this.handleClick} stocks={stocks} />
       </div>
     );
   }
