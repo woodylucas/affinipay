@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import StockItem from "./StockItem";
 
-function StocksList({ stocks, handleClick }) {
-  console.log("prop", stocks);
+const StocksList = ({ stocks, handleClick }) => {
   const renderedList = stocks.map((stock) => {
     return (
       <StockItem
@@ -14,6 +13,6 @@ function StocksList({ stocks, handleClick }) {
   });
 
   return <div className="ui relaxed divided list">{renderedList}</div>;
-}
+};
 
 export default StocksList;

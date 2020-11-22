@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-function StockDetail({ stock }) {
+const StockDetail = ({ stock }) => {
   if (!stock) {
     return <div>Loading...</div>;
   }
@@ -12,6 +12,6 @@ function StockDetail({ stock }) {
       <p>Region: {stock["4. region"]}</p>
     </div>
   );
-}
+};
 
 export default StockDetail;

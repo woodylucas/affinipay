@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Stock from "./Stock";
+import SearchBar from "./SearchBar";
 
 function App() {
   return (
     <div className="App">
-      <Stock />
+      <SearchBar />
     </div>
   );
 }
