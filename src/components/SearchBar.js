@@ -5,37 +5,35 @@ import StocksList from "./StocksList";
 const API_KEY = "FVXS9TZV75C3KYR7";
 
 const SearchBar = () => {
-  const [stocks, setStocks] = useState([]);
   const [selectedStock, setSelectedStock] = useState(null);
   const [term, setTerm] = useState("tesla");
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
+  const [stocks, setStocks] = useState([]);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(term);
+    }, 2000);
+    // clean up
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [term]);
 
   useEffect(() => {
     const search = async () => {
       const { data } = await axios.get("https://www.alphavantage.co/query", {
         params: {
           function: "SYMBOL_SEARCH",
-          keywords: term,
+          keywords: debouncedTerm,
           datatype: "json",
           apikey: API_KEY,
         },
       });
       setStocks(data["bestMatches"]);
     };
-
-    if (term && !stocks.length) {
-      search();
-    } else {
-      const timeOutId = setTimeout(() => {
-        if (term) {
-          search();
-        }
-      }, 2000);
-
-      return () => {
-        clearTimeout(timeOutId);
-      };
-    }
-  }, [term]);
+    search();
+  }, [debouncedTerm]);
 
   const handleChange = (evt) => {
     setTerm(evt.target.value);
