@@ -12,7 +12,7 @@ const StocksList = ({ stocks, handleClick }) => {
     );
   });
 
-  return <div className="ui relaxed divided list">{renderedList}</div>;
+  return <div className="ui middle aligned animated list">{renderedList}</div>;
 };
 
 export default StocksList;
