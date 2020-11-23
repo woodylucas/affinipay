@@ -50,6 +50,7 @@ const SearchBar = () => {
   };
 
   const handleClick = (stock) => {
+    setShowDiv(false);
     setSelectedStock(stock);
   };
 
@@ -58,11 +59,6 @@ const SearchBar = () => {
   };
 
   const detailClick = () => setShowDiv(true);
-
-  // const detailClick = () => {
-  //   console.log("triggered", stocks[0]);
-  //   return <StockDetail stock={stocks[0]} />;
-  // };
 
   return (
     <div className="ui container" style={{ marginTop: "10px" }}>
