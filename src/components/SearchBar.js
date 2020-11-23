@@ -84,7 +84,11 @@ const SearchBar = () => {
             <StockDetail stock={selectedStock} />
           </div>
           <div>
-            <StocksList handleClick={handleClick} stocks={stocks} />
+            <StocksList
+              selectedStock={selectedStock}
+              handleClick={handleClick}
+              stocks={stocks}
+            />
           </div>
         </div>
       </div>
