@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 
 const StockDetail = ({ stock }) => {
   if (!stock) {
-    return <div>Loading...</div>;
+    return <div>Click stock symbol for details</div>;
   }
   return (
     <div className="ui segment ">
