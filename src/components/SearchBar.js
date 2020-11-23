@@ -1,4 +1,5 @@
 import axios from "axios";
+import { set } from "lodash";
 import React, { useState, useEffect } from "react";
 import StockDetail from "./StockDetail";
 import StocksList from "./StocksList";
@@ -11,7 +12,6 @@ const SearchBar = () => {
   const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [stocks, setStocks] = useState([]);
   const [error, setError] = useState(false);
-  const [showDiv, setShowDiv] = useState(true);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -50,7 +50,6 @@ const SearchBar = () => {
   };
 
   const handleClick = (stock) => {
-    setShowDiv(false);
     setSelectedStock(stock);
   };
 
@@ -58,7 +57,9 @@ const SearchBar = () => {
     evt.preventDefault();
   };
 
-  const detailClick = () => setShowDiv(true);
+  const detailClick = (stocks) => {
+    setSelectedStock(stocks);
+  };
 
   return (
     <div className="ui container" style={{ marginTop: "10px" }}>
@@ -73,7 +74,7 @@ const SearchBar = () => {
               value={term}
               onChange={handleChange}
             />
-            <button onClick={() => detailClick}>Submit</button>
+            <button onClick={() => detailClick(stocks[0])}>Submit</button>
           </div>
         </form>
       </div>
