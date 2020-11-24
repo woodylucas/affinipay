@@ -3,6 +3,7 @@ import StockItem from "./StockItem";
 
 const StocksList = ({ stocks, handleClick, selectedStock }) => {
   const renderedList = stocks.map((stock) => {
+    // this feature removes stock from list when clicked.
     if (stock === selectedStock) return null;
     return (
       <StockItem
