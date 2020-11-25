@@ -13,16 +13,21 @@ const SearchBar = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // whenever excuted update update term
   useEffect(() => {
+    // set a timer to update debounce term
     const timerId = setTimeout(() => {
       setDebouncedTerm(term);
     }, 1000);
     // clean up
     return () => {
+      // next time user type, we're going to cancel the original request and set another one
       clearTimeout(timerId);
     };
+    // user update quickly cancel timer
   }, [term]);
 
+  // first useEffect is exexuted run this useEffect on change
   useEffect(() => {
     const search = async () => {
       setError(false);
